@@ -1,3 +1,45 @@
+<div align="center">
+
+<img src="docs/architecture.svg" alt="MCP CLI architecture map" width="100%" />
+
+</div>
+
+# MCP CLI
+
+> A security-conscious Go command line for installing and running MCP packages.
+
+A standard-library-oriented CLI that separates command parsing, configuration, registry metadata, install policy, safe paths and process startup.
+
+<div align="center">
+
+`Go 1.22 · standard library` &nbsp;·&nbsp; `mcp install · mcp search · mcp start`
+
+</div>
+
+## `01 / SYSTEM CARD`
+
+- **Primary boundary:** `CLI → policy → registry / manifest → safe filesystem → process`
+- **Documentation stance:** architecture and presentation only; application source is intentionally untouched.
+- **Visual language:** Y2K terminal grid, brutalist labels, maximalist contrast, readable static SVG fallback.
+
+## `02 / ARCHITECTURE`
+
+The map above is a compact view of the repository's visible runtime boundary. It is designed to answer three questions quickly: where input enters, where policy or domain logic lives, and where external side effects leave the system.
+
+![Architecture map for MCP CLI](docs/architecture.svg)
+
+## `03 / DESIGN NOTES`
+
+- The internal packages make policy and filesystem boundaries visible instead of hiding them in command handlers.
+- The architecture graphic is documentation-only; source files and package behavior are unchanged.
+
+This upgrade adds documentation assets only. It does not change source files, dependency manifests, tests, workflows or runtime configuration.
+
+## `04 / EXISTING PROJECT DOCUMENTATION`
+
+<details open>
+<summary>Read the original project notes</summary>
+
 # MCP CLI starter
 
 A Go-standard-library CLI with exactly these forms:
@@ -36,3 +78,6 @@ This opt-in does not make Cargo safe. Build scripts can access the invoking user
 - `~/.mcp/config.json` is size-bounded, strict JSON, a single-link regular file with mode `0600`, and is replaced atomically. `~/.mcp` uses mode `0700`. Installs and registrations share a bounded per-user advisory lock; kernel lock release makes process crashes stale-safe, and the persistent lock file must itself be a single-link regular `0600` file.
 
 This repository includes implementation and local unit tests only. Running the tests does not contact the registry, clone repositories, or install dependencies.
+
+</details>
+
